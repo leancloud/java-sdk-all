@@ -6,8 +6,10 @@ import cn.leancloud.callback.LCCallback;
 import cn.leancloud.callback.FollowersAndFolloweesCallback;
 import cn.leancloud.core.AppConfiguration;
 import cn.leancloud.core.PaasClient;
+import cn.leancloud.core.StorageClient;
 import cn.leancloud.gson.ObjectDeserializer;
 import cn.leancloud.ops.Utils;
+import cn.leancloud.query.QueryConditions;
 import cn.leancloud.sms.LCSMS;
 import cn.leancloud.sms.LCSMSOption;
 import cn.leancloud.types.LCNull;
@@ -1309,7 +1311,37 @@ public class LCUser extends LCObject {
       query.whereEqualTo(LCFriendship.ATTR_USER, LCUser.createWithoutData(CLASS_NAME, userObjectId));
       query.include(LCFriendship.ATTR_FOLLOWEE);
     }
+    query.whereEqualTo(LCFriendship.ATTR_FRIEND_STATUS, true);
     return query;
+  }
+
+  /**
+   * query current user's friendship.
+   * @return Observable instance to monitor operation result.
+   */
+  public Observable<List<LCFriendship>> queryFriendship() {
+    return this.queryFriendship(0, 0, null);
+  }
+
+  /**
+   * query current user's friendship.
+   * @param offset result offset.
+   * @param limit result size limit.
+   * @return Observable instance to monitor operation result.
+   */
+  public Observable<List<LCFriendship>> queryFriendship(int offset, int limit, String orderBy) {
+    QueryConditions conditions = new QueryConditions();
+    conditions.whereEqualTo(LCFriendship.ATTR_FRIEND_STATUS, true);
+    if (offset > 0) {
+      conditions.setSkip(offset);
+    }
+    if (limit > 0) {
+      conditions.setLimit(limit);
+    }
+    if (!StringUtil.isEmpty(orderBy)) {
+      conditions.setOrder(orderBy);
+    }
+    return PaasClient.getStorageClient().queryFriendship(this, conditions.assembleParameters());
   }
 
   /**

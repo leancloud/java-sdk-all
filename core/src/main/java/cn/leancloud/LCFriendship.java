@@ -17,6 +17,11 @@ public class LCFriendship extends LCObject {
     super(CLASS_NAME);
   }
 
+  public LCFriendship(LCObject object) {
+    super(object);
+    setClassName(CLASS_NAME);
+  }
+
   public LCUser getFollowee() {
     return getLCObject(ATTR_FOLLOWEE);
   }

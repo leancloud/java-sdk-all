@@ -221,12 +221,14 @@ public interface APIService {
                                       @Path("followee") String followee, @Path("follower") String follower);
 
   @GET("/1.1/users/{userId}/followers")
-  Observable<JSONObject> getFollowers(@Header(HEADER_KEY_LC_SESSIONTOKEN) String sessionToken,
-                                      @Path("userId") String userId);
+  Observable<LCQueryResult> getFollowers(@Header(HEADER_KEY_LC_SESSIONTOKEN) String sessionToken,
+                                        @Path("userId") String userId,
+                                        @QueryMap Map<String, String> query);
 
   @GET("/1.1/users/{userId}/followees")
-  Observable<JSONObject> getFollowees(@Header(HEADER_KEY_LC_SESSIONTOKEN) String sessionToken,
-                                      @Path("userId") String userId);
+  Observable<LCQueryResult> getFollowees(@Header(HEADER_KEY_LC_SESSIONTOKEN) String sessionToken,
+                                        @Path("userId") String userId,
+                                        @QueryMap Map<String, String> query);
 
   @GET("/1.1/users/{userId}/followersAndFollowees")
   Observable<JSONObject> getFollowersAndFollowees(@Header(HEADER_KEY_LC_SESSIONTOKEN) String sessionToken,

@@ -13,6 +13,8 @@ public class LCFriendshipRequest extends LCObject {
   public static final String ATTR_USER = "user";
   public static final String ATTR_STATUS = "status";
 
+  public static final String INTERNAL_STATUS_ACCEPTED = "accepted";
+  public static final String INTERNAL_STATUS_DECLINED = "declined";
   public static final int STATUS_PENDING = 0x01;
   public static final int STATUS_ACCEPTED = 0x02;
   public static final int STATUS_DECLINED = 0x04;
